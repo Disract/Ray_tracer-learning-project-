@@ -2,7 +2,8 @@
 #define  CAMERA_H
 
 #include "hittable.h"
-
+#include "material.h"
+#include <chrono>
 class camera
 {
 private:
@@ -13,6 +14,7 @@ private:
 	vec3 pixel_delta_u;
 	vec3 pixel_delta_v;
 
+
 	void initialize()
 	{
 		image_height = int(image_width / aspect_ratio);
@@ -22,8 +24,8 @@ private:
 
 		center = point3(0, 0, 0);
 
-		auto focal_length = 1.0;
-		auto viewport_height = 2.0;
+		auto focal_length = 3.0;
+		auto viewport_height = 4.0;
 		auto viewport_width = viewport_height * (double(image_width) / image_height);
 
 		auto viewport_u = vec3(viewport_width, 0, 0);
@@ -48,12 +50,19 @@ private:
 	{
 		return vec3(random_double() - 0.5, random_double() - 0.5, 0);
 	}
-	color ray_color(const ray& r, const hittable& world) const
+	color ray_color(const ray& r, int depth,const hittable& world) const
 	{
+		if (depth <= 0) {
+			return color(0, 0, 0);
+		}
 		hit_record rec;
-		if (world.hit(r, interval(0, +INFINITY), rec))
+		if (world.hit(r, interval(0.001, +INFINITY), rec))
 		{
-			return 0.5 * (rec.normal + color(1,1,1));
+			ray scattered;
+			color attenuation;
+			if(rec.mat->scatter(r,rec,attenuation,scattered))
+				return attenuation * ray_color(scattered,depth-1,world);
+			return {0,0,0};
 		}
 		vec3 unit_direction = unit_vector(r.direction());
 		auto a = 0.5 * (unit_direction.y() + 1.0);
@@ -65,10 +74,12 @@ public:
 	double aspect_ratio = 1.0;
 	int image_width = 700;
 	int samples_per_pixel = 10;
+	int max_depth = 10;
 	void render(const hittable& world)
 	{
 		initialize();
 		std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+		auto start = std::chrono::high_resolution_clock::now();
 		for (int j = 0;j < image_height;j++)
 		{
 			std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
@@ -79,12 +90,17 @@ public:
 				for (int sample = 0; sample < samples_per_pixel;sample++)
 				{
 					ray r = get_ray(i, j);
-					pixel_color += ray_color(r, world);
+					pixel_color += ray_color(r, max_depth ,world);
 				}
 				write_color(std::cout, pixel_samples_scale * pixel_color);
 
 			}
 		}
+		auto stop = std::chrono::high_resolution_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop-start);
+		std::cout<<"\n";
+		std::cout<<"hello";
+		std::cout<<"Execution Time :- "<< duration.count() * (1/1e-6);
 		std::clog << "\rDone.      \n";
 	}
 };
