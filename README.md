@@ -10,3 +10,6 @@
 
 - https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection.html
 
+- http://cosinekitty.com/raytrace/chapter09_refraction.html
+
+- https://www.slideserve.com/peggy/basic-ray-tracing
