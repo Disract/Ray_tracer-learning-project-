@@ -13,3 +13,5 @@
 - http://cosinekitty.com/raytrace/chapter09_refraction.html
 
 - https://www.slideserve.com/peggy/basic-ray-tracing
+
+- https://www.google.co.in/books/edition/3D_Graphics_for_Game_Programming/3ljRBQAAQBAJ?hl=it&gbpv=1&dq=%22refraction+vector%22&pg=PA124&printsec=frontcover
