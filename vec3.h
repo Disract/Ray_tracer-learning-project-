@@ -128,6 +128,12 @@ inline vec3 random_on_unit_sphere(const vec3& normal) {
 inline vec3 reflect(const vec3& v,const vec3& n) {
 	return v-2*dot(v,n)*n;
 }
+inline vec3 refract(const vec3&uv,const vec3& n,double et_ov_et) {
+	auto cos_theta = std::fmin(dot(-uv,n),1.0);
+	vec3 r_out_perp = et_ov_et * (uv*cos_theta*n);
+	vec3 r_outparallel = -std::sqrt(std::fabs(1.0-r_out_perp.length_squared())) * n;
+	return r_out_perp + r_outparallel;
+}
 
 
 
