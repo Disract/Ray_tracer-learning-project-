@@ -38,6 +38,7 @@ int main()
 	cam.image_width = 1440;
 	cam.samples_per_pixel = 100;
 	cam.max_depth = 75;
+	cam.vfov = 90;
 	cam.render(world);
 
 }

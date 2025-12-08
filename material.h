@@ -45,13 +45,31 @@ public:
 class dielectric : public material {
 private:
     double rri;
+static double reflectance(double cosine,double refracion_index)
+{
+    auto r0 = ( 1 - refracion_index) / (1+refracion_index);
+    r0 = r0 * r0;
+    return r0 + (1-r0)*std::pow((1-cosine),5);
+}
+
 public:
-    dielectric(double rrri) : rri(rri) {}
+    explicit dielectric(double rrri) : rri(rri) {}
     bool scatter(const ray &r_in, const hit_record &rec, color &attenation, ray &scattered) const override {
         attenation = color(1.0,1.0,1.0);
         double ri = rec.front_face ? (1.0/rri) : rri;
-        vec3 refracted = refract(unit_vector(r_in.direction()),rec.normal,ri);
-        scattered = ray(rec.p,refracted);
+
+        vec3 unit_direction = unit_vector(r_in.direction());
+        double cos_theta = std::fmin(dot(-unit_direction,rec.normal),1.0);
+        double sin_theta = std::sqrt(1-cos_theta*cos_theta);
+
+        bool cannot_refract = ri * sin_theta > 1.0;
+        vec3 direction;
+        if (cannot_refract || reflectance(cos_theta,ri) > random_double())
+            direction = reflect(unit_direction,rec.normal);
+        else
+            direction = refract(unit_direction,rec.normal,ri);
+
+        scattered = ray(rec.p,direction);
         return true;
     };
 };
