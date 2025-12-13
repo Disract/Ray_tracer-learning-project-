@@ -100,7 +100,7 @@ inline vec3 cross(const vec3& v1, const vec3& v2)
 {
 	return{v1.v[1] * v2.v[2] - v1.v[2] * v2.v[1],
 				v1.v[2] * v2.v[0] - v1.v[0] * v2.v[2],
-				v1.v[0] * v2.v[1] - v1.v[1] * v2.v[1]} ;
+				v1.v[0] * v2.v[1] - v1.v[1] * v2.v[0]} ;
 }
 
 inline vec3 unit_vector(const vec3& v)
@@ -134,7 +134,14 @@ inline vec3 refract(const vec3&uv,const vec3& n,double et_ov_et) {
 	vec3 r_outparallel = -std::sqrt(std::fabs(1.0-r_out_perp.length_squared())) * n;
 	return r_out_perp + r_outparallel;
 }
+inline vec3 random_in_unit_disk() {
+	while (true) {
+		auto p = vec3(random_double(-1,1),random_double(-1,1),0);
+		if (p.length_squared() < 1)
+			return p;
+	}
 
+}
 
 
 
