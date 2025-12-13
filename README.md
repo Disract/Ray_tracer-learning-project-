@@ -19,3 +19,5 @@
 - https://computergraphics.stackexchange.com/questions/2042/ray-tracing-with-thin-lens-camera
 
 - https://graphics.stanford.edu/~vaibhav/pubs/thesis.pdf
+
+![screenshot](cmake-build-debug/final2_fixed_cross_product.ppm)
