@@ -20,4 +20,5 @@
 
 - https://graphics.stanford.edu/~vaibhav/pubs/thesis.pdf
 
-![screenshot](cmake-build-debug/final2_fixed_cross_product.ppm)
+#Note:-
+I have followed ray tracing in one weekend extensively to build this ray tracer so far as its known that the book lack an in depth explnation in many areas i have tried my best get proper resources and put them here.
