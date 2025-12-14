@@ -22,7 +22,7 @@
 
 # Note:-
 
-- I have followed ray tracing in one weekend extensively to build this ray tracer so far , as its known that the book lacks an in depth explanation in many areas i have tried my best get proper resources for those and and put them here.
+- I have followed ray tracing in one weekend extensively to build this ray tracer so far , as its known that the book lacks an in depth explanation in many areas i have tried my best gather proper resources for  them .
 
 ## Output:-
 
